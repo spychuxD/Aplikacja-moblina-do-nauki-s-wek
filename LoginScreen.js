@@ -5,7 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { auth } from './firebase';
 
 
-const LoginScreen = (props) => {
+const LoginScreen = () => {
+  
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

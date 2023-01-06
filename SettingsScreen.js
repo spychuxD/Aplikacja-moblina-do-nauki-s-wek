@@ -6,7 +6,7 @@ import { auth } from './firebase';
 import { useNavigation } from '@react-navigation/core';
 
 
-const Settings = (props) => {
+const Settings = () => {
   const navigation = useNavigation();
       const okLogout=(props)=>{
         auth
@@ -17,7 +17,7 @@ const Settings = (props) => {
           .catch(error => alert(error.message))
       }
       const changeSettings=()=>{
-        props.navigation.navigate('ChangeSettings');
+        navigation.replace('ChangeSettings');
       }
     const Logout = () =>
     Alert.alert(
