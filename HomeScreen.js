@@ -14,7 +14,6 @@ const HomeScreen = () => {
   const createNewSet=()=>{
     navigation.navigate('CreateNewSetScreen');
   }
-  gb 
   useEffect(async() => {
     todoRef
     .onSnapshot(
