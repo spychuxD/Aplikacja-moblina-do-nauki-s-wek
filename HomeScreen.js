@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Box, FlatList, Button, Avatar, HStack, VStack, Text, Spacer, Center, NativeBaseProvider } from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 import { querySnapshot } from 'firebase/firestore';
+
 const HomeScreen = () => {
   const[users, setUsers] =useState([]);
-  const todoRef = db.firestore().collection('zestawy');
+  const todoRef = db.collection('zestawy');
   const navigation = useNavigation();
   const startLearning=()=>{
     navigation.navigate('LearnHome');
@@ -14,28 +15,42 @@ const HomeScreen = () => {
   const createNewSet=()=>{
     navigation.navigate('CreateNewSetScreen');
   }
-  useEffect(async() => {
-    todoRef
+  useEffect(() => {
+    const unsubscribe = todoRef
     .onSnapshot(
       querySnapshot => {
         const users = []
         querySnapshot.forEach((doc)=>{
           const{id,email,numerConcepts,setName,avatarUrl}=doc.data()
-          users.push({
-            id: doc.id,
-            id,
-            email,
-            numerConcepts,
-            setName,
-            avatarUrl,
-          })
+          if(auth.currentUser?.email === doc.data().email)
+          {
+            users.push({
+              id: doc.id,
+              id,
+              email,
+              numerConcepts,
+              setName,
+              avatarUrl,
+            })
+          }
         })
         setUsers(users)
       }
     )
+    return () => unsubscribe();
   },[])
   return <Box backgroundColor="#02020b" h="100%">
-    <Button onPress={createNewSet}> Utwórz nowy zestaw</Button>
+    <Box alignItems="center" justifyContent="center">
+    <Button onPress={createNewSet}
+          w={{
+            base: '55%',
+            md: '25%',
+          }}
+          backgroundColor="#8aa29e"
+          color="#f1edee"
+          marginTop={5}
+          > Utwórz nowy zestaw</Button>
+          </Box>
     <FlatList data={users} renderItem={({item}) => <Box  borderBottomWidth="1" borderColor="#8aa29e" pl={["4", "4"]} pr={["5", "5"]} py="5">
         <Button justifyContent='flex-start' backgroundColor="#8aa29e" onPress={startLearning}>
           <VStack>
