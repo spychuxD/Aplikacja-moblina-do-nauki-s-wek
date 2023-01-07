@@ -6,6 +6,8 @@ import { auth, db } from './firebase';
 import { querySnapshot } from 'firebase/firestore';
 
 const HomeScreen = () => {
+  
+
   const[users, setUsers] =useState([]);
   const todoRef = db.collection('zestawy');
   const navigation = useNavigation();
@@ -21,16 +23,14 @@ const HomeScreen = () => {
       querySnapshot => {
         const users = []
         querySnapshot.forEach((doc)=>{
-          const{id,email,numerConcepts,setName,avatarUrl}=doc.data()
+          const{id,nazwa,email}=doc.data()
           if(auth.currentUser?.email === doc.data().email)
           {
             users.push({
               id: doc.id,
               id,
+              nazwa,
               email,
-              numerConcepts,
-              setName,
-              avatarUrl,
             })
           }
         })
@@ -49,23 +49,24 @@ const HomeScreen = () => {
           backgroundColor="#8aa29e"
           color="#f1edee"
           marginTop={5}
+          marginBottom={5}
           > Utwórz nowy zestaw</Button>
           </Box>
     <FlatList data={users} renderItem={({item}) => <Box  borderBottomWidth="1" borderColor="#8aa29e" pl={["4", "4"]} pr={["5", "5"]} py="5">
         <Button justifyContent='flex-start' backgroundColor="#8aa29e" onPress={startLearning}>
           <VStack>
             <Text fontSize="26px" color="#f1edee" bold>
-              {item.setName}
+              {item.nazwa}
             </Text>
             <Text fontSize="14px" color="#686963">
-              {item.numerConcepts} pojęć
+               pojęć
             </Text>
             <HStack>
               <Avatar margin="3" size="30px" source={{
-                uri: item.avatarUrl
+                
               }} />
               <Text fontSize="16px" p="3" color="#686963">
-                {item.login}
+                {item.email}
               </Text>
             </HStack>
           </VStack>
