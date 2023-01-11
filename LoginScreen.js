@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { Text, Input, Button, Icon, Pressable, Stack} from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 
 
 const LoginScreen = () => {
@@ -35,13 +35,17 @@ const LoginScreen = () => {
     }
 
   const handleSignUP = () => {
+
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.email);
+        db.collection('users').doc(user.uid).set({'email': user.email})
       })
       .catch(error => alert(error.message))
+    
+      
   }
 
   return (
