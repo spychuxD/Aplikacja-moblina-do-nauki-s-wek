@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { Text, Input, Button, Icon, Pressable, Stack} from 'native-base';
+import { Text, Input, Button, Icon, Pressable, Stack, View} from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { auth, db } from './firebase';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const LoginScreen = () => {
@@ -82,7 +83,7 @@ const LoginScreen = () => {
           backgroundColor="#f1edee"
           color="#686963"
         />
-
+        
         <Button
           onPress={handleLogin}
           w={{
@@ -108,6 +109,8 @@ const LoginScreen = () => {
         >
           Zarejestruj się
         </Button>
+        
+        
       </Stack>
 );}
 

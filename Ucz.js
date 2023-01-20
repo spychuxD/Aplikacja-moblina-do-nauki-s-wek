@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Animated, PanResponder, StyleSheet} from "react-native";
 import { Box, FlatList, Button, Icon, Progress, Avatar, View, HStack, VStack, Text, Input,Spacer, Center, NativeBaseProvider, Divider} from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -36,6 +36,22 @@ const Ucz = (props) => {
             
         }
     }
+    useEffect(() => {
+        const uid = auth.currentUser?.uid;
+        db.collection('users').doc(uid).collection('zestawy').doc(uid+name).get()
+          .then(doc => {
+            if (doc.exists) {
+                const data = doc.data().definitions;
+                setTab(data);
+              } else {
+                console.log("No such document!")
+              }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        
+      }, []);
     return <VStack space={4} backgroundColor="#02020B" alignItems="center" justifyContent="center" w="100%" h="100%">
         <Text m="10" fontSize="30px" color="#f1edee" bold>{data[count].quest}</Text>
         <Input onChangeText={text => setAns(text)}

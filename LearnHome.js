@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
-import { Box, FlatList, Button, Icon, Avatar, HStack, VStack, Text, Spacer, Center, NativeBaseProvider } from "native-base";
+import React, { useState, useCallback } from 'react';
+import { Button, Icon, HStack, VStack, Text} from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute,  } from '@react-navigation/core';
 
-const LearnHome = (props) => {
-  const startFiszki=()=>{
-    props.navigation.navigate('Fiszki');
-  }
+const LearnHome = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
+  const itemid = route.params.nazwa;
+  
+
   const startUcz=()=>{
-    props.navigation.navigate('Ucz');
+    navigation.navigate('Ucz');
   }
+
   const startDop=()=>{
-    props.navigation.navigate('Dopasowania');
+    navigation.navigate('Dopasowania');
   }
   return <VStack space={4} backgroundColor="#02020B" alignItems="center" justifyContent="center" w="100%" h="100%">
-    <Button backgroundColor="#8aa29e" onPress={startFiszki}>
+    <Text fontSize="26px" color="#f1edee" paddingBottom={10} bold>
+      {itemid} 
+    </Text>
+    <Button backgroundColor="#8aa29e" onPress={()=>navigation.navigate('Fiszki', {nazwa: itemid})}>
       <HStack>
         <Icon as={<MaterialIcons name="filter-none" />} m="1" size={16} color="#f1edee" />
         <Text w={{base: '61%'}} m="3" fontSize="26px" color="#f1edee" bold>
-            Fiszki
+           Fiszki 
         </Text>
       </HStack>
     </Button>
