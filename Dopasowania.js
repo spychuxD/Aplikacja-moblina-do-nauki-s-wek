@@ -1,60 +1,91 @@
 import React, { useState, useEffect } from 'react';
-import { Animated, PanResponder, StyleSheet} from "react-native";
-import { Box, FlatList, Button, Icon, Progress, Avatar, View, HStack, VStack, Text, Input,Spacer, Center, NativeBaseProvider, Divider} from "native-base";
-import { MaterialIcons } from '@expo/vector-icons';
-const data = [{
-    id: 1,
-    quest: "Ocena za projekt",
-    ans: "5.0",
-}, {
-    id: 2,
-    quest: "ala ma",
-    ans: "kota",
-}, {
-    id: 3,
-    quest: "czlowiek",
-    ans: "ssak",
-},{
-    id: 4,
-    quest: "kolor",
-    ans: "czerwony",
-},];
+import { Animated, PanResponder, FlatList, StyleSheet,TouchableOpacity} from "react-native";
+import { Box, Button, Icon, Progress, Avatar, View, HStack, VStack, Text, Input,Spacer, Center, NativeBaseProvider, Divider, ScrollView} from "native-base";
+import {auth,db} from './firebase';
+import {useNavigation,useRoute } from '@react-navigation/core';
 
-const Dopasowania = (props) => {
-    
-    const [count, setCount] = useState(0);
-    const [yourAns, setAns] = useState('');
-    const numbers = [];
-    const seen = [];
+const Dopasowania = () => {
+    const [selectedConcept, setSelectedConcept] = useState(null);
+    const [concepts, setConcepts] = useState([]);
+    const route = useRoute();
+    const name = route.params.nazwa;
+    const uid = auth.currentUser?.uid;
+   
     useEffect(() => {
-        for (let i = 0; i < 10; i++) {
-            let war = Math.floor(Math.random() * 3) + 0;
-            
-            seen.push(war);
-            numbers.push(war);
+    db.collection('users').doc(uid).collection('zestawy').doc(uid + name).get()
+      .then(doc => {
+        if (doc.exists) {
+          const data = doc.data().definitions;
+          setConcepts(data);
+        } else {
+          console.log("No such document!")
         }
-        const numbersAns = [];
-        const seenAns = [];
-        for (let i = 0; i < 10; i++) {
-            let war = Math.floor(Math.random() * 3) + 0;
-            
-            seenAns.push(war);
-            numbersAns.push(war);
-        }
-      }, []);
-    
-    return <Box backgroundColor="#02020b" h="100%">
-    <FlatList data={data} renderItem={({item}) =><Box alignItems="center" justifyContent="center"  pl={["4", "4"]} pr={["5", "5"]} py="8">
-    <HStack backgrundColor="#02020B">
-            <Button borderRadius="15" m="5" w={{base: '35%'}} alignItems="center" backgroundColor="#8aa29e">
-                <Text fontSize="20px" color="#f1edee">{item.quest}</Text>
-            </Button>
-            <Button borderRadius="15" m="5" w={{base: '35%'}}  alignItems="center" backgroundColor="#8aa29e">
-                <Text fontSize="20px" color="#f1edee">{item.ans}</Text>
-            </Button>
-        </HStack>
-        </Box>} keyExtractor={item => item.id} />
-        </Box> 
-};
+      })
+      .catch(error => {
+        console.log(error);``
+      });
+    }, []);
 
+    const handlePress = (item) => {
+      setSelectedConcept(item);
+    }
+  
+    const handleMatching = (definition) => {
+      if (selectedConcept && definition === selectedConcept.definition) {
+        setConcepts(concepts.filter(concept => concept.id !== selectedConcept.id));
+      } else {
+        setSelectedConcept(null);
+      }
+    }
+  
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={concepts}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handlePress(item)} style={[styles.concept, selectedConcept && selectedConcept.id === item.id ? styles.selected : {}]}>
+              <Text>{item.concept}</Text>
+            </TouchableOpacity>
+          )}
+        />
+        <FlatList
+          data={concepts}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleMatching(item.definition)} style={styles.definition}>
+              <Text>{item.definition}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    );
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    concept: {
+      width: 100,
+      height: 100,
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 10,
+      backgroundColor: 'lightgray',
+    },
+    selected: {
+      backgroundColor: 'blue',
+    },
+    definition: {
+      width: 200,
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 10,
+      backgroundColor: 'lightgray',
+    },
+  });
 export default Dopasowania;
