@@ -13,9 +13,6 @@ const LearnHome = () => {
     navigation.navigate('Ucz');
   }
 
-  const startDop=()=>{
-    navigation.navigate('Dopasowania');
-  }
   return <VStack space={4} backgroundColor="#02020B" alignItems="center" justifyContent="center" w="100%" h="100%">
     <Text fontSize="26px" color="#f1edee" paddingBottom={10} bold>
       {itemid} 
@@ -44,7 +41,7 @@ const LearnHome = () => {
         </Text>
       </HStack>
     </Button>
-    <Button backgroundColor="#8aa29e" onPress={startDop}>
+    <Button backgroundColor="#8aa29e" onPress={()=>navigation.navigate('Dopasowania', {nazwa: itemid})}>
       <HStack>
         <Icon as={<MaterialIcons name="extension" />} m="1" size={16} color="#f1edee" />
         <Text w={{base: '61%'}} m="3" fontSize="26px" color="#f1edee" bold>
@@ -52,7 +49,7 @@ const LearnHome = () => {
         </Text>
       </HStack>
     </Button>
-    <Button backgroundColor="#8aa29e" >
+    <Button backgroundColor="#8aa29e" onPress={()=>navigation.navigate('Notatki', {nazwa: itemid})} >
       <HStack>
         <Icon as={<MaterialIcons name="sticky-note-2" />}m="1" size={16} color="#f1edee" />
         <Text w={{base: '61%'}} m="3" fontSize="26px" color="#f1edee" bold>

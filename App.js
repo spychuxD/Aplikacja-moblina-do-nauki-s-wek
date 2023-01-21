@@ -15,6 +15,7 @@ import ChangeSettingsScreen from './ChangeSettingsScreen';
 import Ucz from './Ucz';
 import Dopasowania from './Dopasowania';
 import CreateNewSetScreen from './CreateNewSetScreen';
+import Notatki from './Notatki';
 const Tab = createBottomTabNavigator();
 
 const ProfileDrawer = () => {
@@ -170,6 +171,16 @@ const App = () => {
             headerTitleStyle: {
               fontSize: 24,
             },
+          }}>
+           </Stacks.Screen> 
+          <Stacks.Screen name="Notatki" component={Notatki} options = {{headerShown:true,headerStyle: {
+          backgroundColor: '#8aa29e',
+          },
+          headerTintColor: '#f1edee',
+          headerTitle: 'Notatki',
+          headerTitleStyle: {
+            fontSize: 24,
+          }
           }}>
           </Stacks.Screen>
         </Stacks.Navigator>
