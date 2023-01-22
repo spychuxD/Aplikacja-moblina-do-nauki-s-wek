@@ -22,7 +22,7 @@ const HomeScreen = () => {
         console.log(error);
       });
   }, [])
-  return <Box backgroundColor="#02020b" h="100%">
+  return <Box backgroundColor="#686963" h="100%">
     <Box alignItems="center" justifyContent="center">
       <Button onPress={createNewSet}
         w={{
@@ -36,10 +36,11 @@ const HomeScreen = () => {
       > Utwórz nowy zestaw
       </Button>
     </Box>
-    <FlatList data={documents} renderItem={({ item }) => <Box borderBottomWidth="1" borderColor="#8aa29e" pl={["4", "4"]} pr={["5", "5"]} py="5">
-      <Button justifyContent='flex-start' backgroundColor="#8aa29e" onPress={() => navigation.navigate('LearnHome', {nazwa: item.name})}>
+    <FlatList data={documents} renderItem={({ item }) => <Box borderBottomWidth="1" borderColor="#686963" pl={["4", "4"]} pr={["5", "5"]} py="5">
+      <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
+      justifyContent='flex-start' backgroundColor="#8aa29e" onPress={() => navigation.navigate('LearnHome', {nazwa: item.name})}>
         <VStack>
-          <Text fontSize="26px" color="#f1edee" bold>
+          <Text border="5px solid #02020b" fontSize="26px" color="#f1edee" bold>
             {item.name}
           </Text>
           <Text fontSize="14px" color="#686963">

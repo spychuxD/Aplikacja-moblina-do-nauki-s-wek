@@ -129,26 +129,28 @@ const Fiszki = () => {
     </View>
   };
 
-  return <VStack space={4} backgroundColor="#02020B" alignItems="center" justifyContent="space-between" w="100%" h="100%">
+  return <VStack space={4} backgroundColor="#686963" alignItems="center" justifyContent="space-between" w="100%" h="100%">
     <Box w="90%" maxW={400}>
       <Text alignSelf='center' m="5" color="#f1edee">{count}/{tab.length}</Text>
-      <Progress value={(count) / tab.length * 100} mx="4" />
+      <Progress style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }} value={(count) / tab.length * 100} mx="4" />
     </Box>
       <Button backgroundColor="#8aa29e" marginLeft="auto" marginRight="3" onPress={toggleAccelerometer}>
         <Icon as={<MaterialCommunityIcons name={accel? 'screen-rotation' : 'screen-rotation-lock'} />} size={5} color="#f1edee" />
       </Button>
       
-    <SafeAreaView flex={1} alignItems="center" >
+    <SafeAreaView flex={1} alignItems="center" style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
       <GestureFlipView width={280} height={450}>
         {renderFront()}
         {renderBack()}
       </GestureFlipView>
     </SafeAreaView>
     <HStack>
-      <Button borderRadius="15" m="10" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#db5461" onPress={() => doNotKnow()}>
+      <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
+      borderRadius="15" m="10" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#db5461" onPress={() => doNotKnow()}>
         Nie wiem
       </Button>
-      <Button borderRadius="15" m="10" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#56A598" onPress={() => know()}>
+      <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
+      borderRadius="15" m="10" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#56A598" onPress={() => know()}>
         Wiem
       </Button>
     </HStack>
