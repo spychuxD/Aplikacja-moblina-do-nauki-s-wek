@@ -67,7 +67,7 @@ const CreateNewSetScreen = () => {
   
   }
   return (
-    <Stack space={4} backgroundColor="#02020B" alignItems="center" justifyContent="center" w="100%" h="100%">
+    <Stack space={4} backgroundColor="#686963" alignItems="center" justifyContent="center" w="100%" h="100%">
       <Input
         w={{
           base: '75%',
@@ -113,13 +113,14 @@ const CreateNewSetScreen = () => {
             />
           </VStack>)}
         <VStack alignItems="center">
-          <Button w="30%" marginTop="4" onPress={addNewOne} backgroundColor="#8aa29e">
+          <Button w="30%" marginTop="4" onPress={addNewOne} backgroundColor="#8aa29e" borderRadius="30">
             <Icon as={<Ionicons name="add" />} m="1" size={50} color="#f1edee" />
           </Button>
         </VStack>
       </ScrollView>
       
-      <Button backgroundColor="#8aa29e" onPress={() => addSet()}>
+      <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 20 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
+      backgroundColor="#8aa29e" onPress={() => addSet()}>
         <HStack>
           <Icon as={<Ionicons name="create" />} m="1" size={50} color="#f1edee" />
           <Text w={{ base: '70%' }} m="3" fontSize="26px" color="#f1edee" bold>
