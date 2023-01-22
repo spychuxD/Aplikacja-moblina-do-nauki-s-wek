@@ -14,6 +14,7 @@ import SettingsScreen from './SettingsScreen';
 import ChangeSettingsScreen from './ChangeSettingsScreen';
 import Ucz from './Ucz';
 import Dopasowania from './Dopasowania';
+import DopasowaniaStart from './DopasowaniaStart';
 import CreateNewSetScreen from './CreateNewSetScreen';
 import Notatki from './Notatki';
 const Tab = createBottomTabNavigator();
@@ -162,6 +163,17 @@ const App = () => {
             },
           }}>
           </Stacks.Screen>
+          <Stacks.Screen name="DopasowaniaStart" component={DopasowaniaStart} options={{
+            headerStyle: {
+              backgroundColor: '#8aa29e',
+            },
+            headerTintColor: '#f1edee',
+            headerTitle: 'Dopasowania',
+            headerTitleStyle: {
+              fontSize: 24,
+            },
+          }}>
+           </Stacks.Screen> 
           <Stacks.Screen name="Dopasowania" component={Dopasowania} options={{
             headerStyle: {
               backgroundColor: '#8aa29e',
