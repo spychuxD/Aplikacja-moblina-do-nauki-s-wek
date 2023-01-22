@@ -54,7 +54,7 @@ const NotatkiPrzegladanie = () => {
             borderWidth= "0.5"
             borderColor="black"
             margin ="10"
-            onPress={()=>navigation.navigate('NotatkiDodawanie', {nazwa: setName})}
+            onPress={()=>navigation.replace('NotatkiDodawanie', {nazwa: setName})}
           >
             <Text style={{ fontSize: 18, marginBottom: 10, color: '#F1EDEE' }}>
               Dodaj nowe notatki
@@ -65,7 +65,7 @@ const NotatkiPrzegladanie = () => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <Lightbox>
-              <Image source={item}  style={{ width:'auto', height: 200 }} resizeMode='contain'/>
+              <Image source={item}  style={{ width:400, height: 300, marginBottom:20 ,alignSelf: 'center' }} resizeMode='contain'/>
             </Lightbox>
           )}
           

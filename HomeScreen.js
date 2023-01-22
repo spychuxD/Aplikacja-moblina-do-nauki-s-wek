@@ -40,14 +40,14 @@ const HomeScreen = () => {
       <Button justifyContent='flex-start' backgroundColor="#8aa29e" onPress={() => navigation.navigate('LearnHome', {nazwa: item.name})}>
         <VStack>
           <Text fontSize="26px" color="#f1edee" bold>
-            {item.name}
+            {item.name} 
           </Text>
           <Text fontSize="14px" color="#686963">
             Liczba pojęć: {item.count}
           </Text>
         </VStack>
       </Button>
-    </Box>} keyExtractor={item => item.id} />
+    </Box>} keyExtractor={item => item.name} />
   </Box>;
 };
 export default HomeScreen;
