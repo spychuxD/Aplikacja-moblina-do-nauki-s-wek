@@ -50,5 +50,4 @@ const HomeScreen = () => {
     </Box>} keyExtractor={item => item.id} />
   </Box>;
 };
-
 export default HomeScreen;

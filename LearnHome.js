@@ -49,7 +49,7 @@ const LearnHome = () => {
         </Text>
       </HStack>
     </Button>
-    <Button backgroundColor="#8aa29e" onPress={()=>navigation.navigate('Notatki', {nazwa: itemid})} >
+    <Button backgroundColor="#8aa29e" onPress={()=>navigation.navigate('NotatkiPrzegladanie', {nazwa: itemid})} >
       <HStack>
         <Icon as={<MaterialIcons name="sticky-note-2" />}m="1" size={16} color="#f1edee" />
         <Text w={{base: '61%'}} m="3" fontSize="26px" color="#f1edee" bold>

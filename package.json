@@ -31,6 +31,7 @@
     "react-native-dialog-input": "^1.0.8",
     "react-native-gesture-flip-card": "^1.0.6",
     "react-native-gesture-handler": "^2.8.0",
+    "react-native-lightbox-v2": "^0.9.0",
     "react-native-progress": "^5.0.0",
     "react-native-sensor-manager": "^0.1.10",
     "react-native-sensors": "^7.3.6",
