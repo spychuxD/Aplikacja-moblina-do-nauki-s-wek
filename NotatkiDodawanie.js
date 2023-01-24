@@ -25,7 +25,15 @@ export default function NotatkiDodawanie () {
     if (status === 'granted') {
       setPermissionsGranted(true);
     } else {
-      console.log('Nie przyznano permisji do kamery!');
+      Alert.alert(
+        'Brak permisji do kamery!',
+        'Odrzucono permisje do kamery!',
+        [
+          {
+            text:"OK",
+          }
+        ]
+      );
     }
   }
   async function takePicture() {
@@ -166,9 +174,13 @@ const styles = StyleSheet.create({
   backgroundColor: '#8AA29E',
   margin: 5,
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  shadowColor: 'black', 
+  shadowOffset: { width: 0, height: 2 }, 
+  shadowOpacity: 0.25, shadowRadius: 3.84, 
+  elevation: 5,
   },
-  progressBarContainer: {
+  progressBarContainer: { 
     marginTop: 20
   },
   });
