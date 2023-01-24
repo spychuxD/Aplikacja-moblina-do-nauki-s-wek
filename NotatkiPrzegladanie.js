@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Button, Icon, HStack, VStack, Text} from "native-base";
-import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute, } from '@react-navigation/core';
 import { View, Image, TouchableOpacity,ScrollView,StyleSheet,FlatList, Modal } from 'react-native';
 import { st,auth,db } from './firebase';
@@ -51,9 +50,8 @@ const NotatkiPrzegladanie = () => {
             marginTop={3} 
             marginBottom={5}
             alignSelf="center"
-            borderWidth= "0.5"
-            borderColor="black"
             margin ="10"
+            style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
             onPress={()=>navigation.replace('NotatkiDodawanie', {nazwa: setName})}
           >
             <Text style={{ fontSize: 18, marginBottom: 10, color: '#F1EDEE' }}>
