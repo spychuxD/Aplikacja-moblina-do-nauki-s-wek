@@ -7,10 +7,14 @@ import { useNavigation, useRoute } from '@react-navigation/core';
 const DopasowaniaStart = () => {
     const route = useRoute();
     const name = route.params.nazwa;
+    const size = route.params.size;
     const navigation = useNavigation();
+    const [randomNumbers, setRandomNumbers] = useState([]);
+    const [shuffleNumbers, setShuffleNumbers] = useState([]);
+    console.log(size);
     const start = () => {
-        navigation.navigate('Dopasowania', {nazwa: name});
-    } 
+      navigation.navigate('Dopasowania', {nazwa: name, size: size});
+      } 
 
   return (
     <View backgroundColor="#02020B" alignItems="center" justifyContent="center" w="100%" h="100%">

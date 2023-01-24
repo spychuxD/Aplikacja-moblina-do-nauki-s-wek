@@ -38,7 +38,7 @@ const HomeScreen = () => {
     </Box>
     <FlatList data={documents} renderItem={({ item }) => <Box borderBottomWidth="1" borderColor="#686963" pl={["4", "4"]} pr={["5", "5"]} py="5">
       <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-      justifyContent='flex-start' backgroundColor="#8aa29e" onPress={() => navigation.navigate('LearnHome', {nazwa: item.name})}>
+      justifyContent='flex-start' backgroundColor="#8aa29e" onPress={() => navigation.navigate('LearnHome', {nazwa: item.name, size: item.count})}>
         <VStack>
           <Text border="5px solid #02020b" fontSize="26px" color="#f1edee" bold>
             {item.name}
