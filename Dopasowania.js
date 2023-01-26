@@ -146,6 +146,7 @@ const Dopasowania = () => {
     } 
   }, [elapsedTime]);
 
+  
 
 
   return (

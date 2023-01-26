@@ -64,15 +64,16 @@ const Fiszki = () => {
   }
 
   const know = () => {
-    tab[count - 1].isLearn = true;
+    tab[randomNumbers[count - 1]].isLearn = true;
     incrementCount();
   }
 
   const doNotKnow = () => {
-    tab[count - 1].isLearn = false;
+    tab[randomNumbers[count - 1]].isLearn = false;
     incrementCount();
   }
 
+  const [randomNumbers, setRandomNumbers] = useState([0]);
   useEffect(() => {
     db.collection('users').doc(uid).collection('zestawy').doc(uid + name).get()
       .then(doc => {
@@ -88,6 +89,17 @@ const Fiszki = () => {
       });
 
   }, []);
+
+  useEffect(() => {
+    let newRandomNumbers = [];
+    while (newRandomNumbers.length < tab.length) {
+      let random = Math.floor(Math.random() * (tab.length)) + 0;
+      if (!newRandomNumbers.includes(random)) {
+        newRandomNumbers.push(random);
+      }
+    }
+    setRandomNumbers(newRandomNumbers);
+  }, [tab]);
 
 
   useEffect(() => {
@@ -137,15 +149,16 @@ const Fiszki = () => {
 
   const renderFront = () => {
     return <View backgroundColor="#f1edee" width={280} height={450} marginTop={5} marginBottom={10} borderRadius={20} alignItems="center" justifyContent="center">
-      <Text fontSize="30px" color="#02020B">{tab[count - 1].concept}</Text>
+      <Text fontSize="30px" color="#02020B">{tab[randomNumbers[count - 1]].concept}</Text>
     </View>
   };
 
   const renderBack = () => {
     return <View backgroundColor="#f1edee" width={280} height={450} marginTop={5} marginBottom={10} borderRadius={20} alignItems="center" justifyContent="center">
-      <Text fontSize="30px" color="#02020B">{tab[count - 1].definition}</Text>
+      <Text fontSize="30px" color="#02020B">{tab[randomNumbers[count - 1]].definition}</Text>
     </View>
   };
+    
 
   return <VStack space={4} backgroundColor="#686963" alignItems="center" justifyContent="space-between" w="100%" h="100%">
     <Box w="90%" maxW={400}>
