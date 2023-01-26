@@ -153,6 +153,8 @@ const Fiszki = () => {
     </View>
   };
 
+
+  
   const renderBack = () => {
     return <View backgroundColor="#f1edee" width={280} height={450} marginTop={5} marginBottom={10} borderRadius={20} alignItems="center" justifyContent="center">
       <Text fontSize="30px" color="#02020B">{tab[randomNumbers[count - 1]].definition}</Text>
