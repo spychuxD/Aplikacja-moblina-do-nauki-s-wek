@@ -14,7 +14,7 @@ import SettingsScreen from './SettingsScreen';
 import ChangeSettingsScreen from './ChangeSettingsScreen';
 import Ucz from './Ucz';
 import Dopasowania from './Dopasowania';
-import DopasowaniaStart from './DopasowaniaStart';
+
 import CreateNewSetScreen from './CreateNewSetScreen';
 import NotatkiPrzegladanie from './NotatkiPrzegladanie';
 import NotatkiDodawanie from './NotatkiDodawanie';
@@ -166,17 +166,7 @@ const App = () => {
             },
           }}>
           </Stacks.Screen>
-          <Stacks.Screen name="DopasowaniaStart" component={DopasowaniaStart} options={{
-            headerStyle: {
-              backgroundColor: '#8aa29e',
-            },
-            headerTintColor: '#f1edee',
-            headerTitle: 'Dopasowania',
-            headerTitleStyle: {
-              fontSize: 24,
-            },
-          }}>
-           </Stacks.Screen> 
+          
           <Stacks.Screen name="Dopasowania" component={Dopasowania} options={{
             headerStyle: {
               backgroundColor: '#8aa29e',
