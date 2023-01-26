@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Button, Icon, HStack, VStack, Text} from "native-base";
 import { useNavigation, useRoute, } from '@react-navigation/core';
-import { View, Image, TouchableOpacity,ScrollView,StyleSheet,FlatList, Modal } from 'react-native';
+import { View, Image, TouchableOpacity,ScrollView,StyleSheet,FlatList, Modal,Alert } from 'react-native';
 import { st,auth,db } from './firebase';
+import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import Lightbox from 'react-native-lightbox-v2';
 
 
@@ -21,12 +22,21 @@ const NotatkiPrzegladanie = () => {
         .filter(item => item.name.endsWith('.jpg') || item.name.endsWith('.jpeg') || item.name.endsWith('.png'))
         .map(async item => {
         const imageURL = await item.getDownloadURL();
-        return { uri: imageURL };
+        return { uri: imageURL, name: item.name };
       })
     );
     setImages(imagesData);
   };
-
+const deleteImage = async(item) =>
+{
+  const imageRef = st.ref(`/${auth.currentUser.email}/${setName}/${item.name}`);
+  try {
+    await imageRef.delete();
+    getImages();
+  } catch (error) {
+    console.log(error);
+  }
+}
   useEffect(() => {
     const catalogExist = st.ref(`/${auth.currentUser.email}/${setName}/exist.txt`);
     catalogExist.getDownloadURL().then(() => {
@@ -37,7 +47,7 @@ const NotatkiPrzegladanie = () => {
     })
     getImages();
   }, []);
-
+  
     return (
       <View>
         <Button
@@ -60,15 +70,40 @@ const NotatkiPrzegladanie = () => {
           </Button>
         <FlatList
           data={images}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.name}
           renderItem={({ item }) => (
+            <LongPressGestureHandler onHandlerStateChange={({ nativeEvent }) => {
+              if (nativeEvent.state === State.ACTIVE) {
+                Alert.alert(
+                  "Usuwanie zdjęcia",
+                  "Czy na pewno chcesz usunąć to zdjęcie?",
+                  [
+                      {
+                          text:"Nie",
+                          style: "cancel",
+              
+                      },
+                      {
+                          text:"Tak",
+                           onPress: () => {deleteImage(item)} ,
+                          
+                      }
+              
+                  ]
+              );
+              }
+            }}
+            minDurationMs={800}>
+             <View>
             <Lightbox>
               <Image source={item}  style={{ width:400, height: 300, marginBottom:20 ,alignSelf: 'center' }} resizeMode='contain'/>
             </Lightbox>
+            </View>
+            </LongPressGestureHandler>
           )}
           
         />
-         
+        
       </View>
     );
 }
