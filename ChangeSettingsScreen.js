@@ -3,8 +3,9 @@ import { Box, FlatList, Button,Icon, Avatar, HStack, VStack, Text, Spacer, Cente
 import { MaterialIcons,Entypo,AntDesign,MaterialCommunityIcons } from '@expo/vector-icons';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { auth } from './firebase';
+import { st,auth } from './firebase';
 import Dialog from "react-native-dialog";
+import * as ImagePicker from 'expo-image-picker';
 
 const ChangeSettings = () => {
 
@@ -107,6 +108,63 @@ const ChangeSettings = () => {
       })
       .catch(error => alert(error.message))
     }
+    async function loadPicture() {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status === 'granted') {
+        try {
+          const { canceled, assets } = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsMultipleSelection: false,
+          });
+      
+          if (!canceled) {
+            const source = assets[0].uri;
+            deleteOldPicture();
+            uploadPicture(source);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        }
+        else {
+          console.log('Permission denied');
+      } 
+      }
+      async function uploadPicture (source) {
+        const storageRef = st.ref();
+        const imageRef = storageRef.child(`/${auth.currentUser.email}/Avatar/${new Date().getTime()}.jpg`);
+        const response = await fetch(source);
+        const blob = await response.blob();
+        const task = imageRef.put(blob); 
+        try {
+          await task;
+          Alert.alert(
+            'Ustawiono nowy avatar!',
+            'Sprawdź swoje zdjęcie nowe zdjęcie w profilu!',
+            [
+              {
+                text:"OK",
+                onPress: () => {navigation.replace('ChangeSettings')} ,
+              }
+            ]
+          );
+        } catch (e) {
+          console.error(e);
+        }
+      }
+const deleteOldPicture = async() =>
+{
+  const imageRef = st.ref(`/${auth.currentUser.email}/Avatar/`);
+  try {
+    await imageRef.listAll().then(function(res) {
+      res.items.forEach(function(itemRef) {
+        itemRef.delete();
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
   return <Box backgroundColor="#02020B" h="100%">
     <VStack space={3} backgroundColor="#02020B" alignItems="center" justifyContent="center" w="100%" h="100%">
     <Button backgroundColor="#8aa29e" marginTop="5" onPress={confirmMail}>
@@ -122,6 +180,14 @@ const ChangeSettings = () => {
         <Icon as={<MaterialIcons name="vpn-key" />} marginRight="2" size={44} color="#f1edee"/>
         <Text w={{base: '72%'}} textAlign="center" fontSize="26px" color="#f1edee" bold>
             Zmiana hasla
+        </Text>
+      </HStack>
+    </Button>
+    <Button backgroundColor="#8aa29e" marginTop="5" onPress={loadPicture}>
+      <HStack>
+        <Icon as={<AntDesign name="picture" />} marginRight="2" size={44} color="#f1edee"/>
+        <Text w={{base: '72%'}} textAlign="center" fontSize="26px" color="#f1edee" bold>
+            Zmiana avataru
         </Text>
       </HStack>
     </Button>

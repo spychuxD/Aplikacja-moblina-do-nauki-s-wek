@@ -1,20 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState, useEffect, useLayoutEffect} from 'react';
+import {View } from 'react-native';
 import { Box, FlatList, Button, Avatar, HStack, VStack, Text, Spacer, Center, NativeBaseProvider } from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
 import CalendarPicker from 'react-native-calendar-picker';
-import { auth } from './firebase';
+import { useNavigation} from '@react-navigation/core';
+import { st,auth, } from './firebase';
 
 const ProfileScreen = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const navigation = useNavigation();
+  const [images, setImages] = useState([]);
+  const [check,setCheck] = useState(false);
   const startDate = selectedStartDate
     ? selectedStartDate.format('YYYY-MM-DD').toString()
     : '';
+    const getImages = async () => {
+      setCheck(false);
+      const imageRef = st.ref(`/${auth.currentUser.email}/Avatar/`);
+      const imageList = await imageRef.listAll();
+  
+      const imagesData = await Promise.all(
+        imageList.items
+          .filter(item => item.name.endsWith('.jpg') || item.name.endsWith('.jpeg') || item.name.endsWith('.png'))
+          .map(async item => {
+          const imageURL = await item.getDownloadURL();
+          return { uri: imageURL};
+        })
+      );
+      setImages(imagesData);
+      setCheck(true);
+    };
+    useEffect(()=> {
+      getImages();
+      const unsubscribe = navigation.addListener('focus', () => {
+        getImages();
+    });
+    return unsubscribe;
+    }, []);
+
   return (
+    <View>
+      {check ?(
     <Box backgroundColor="#FFFFFF" h="100%">
       <VStack>
         <Avatar alignSelf="center" size="200px" source={{
-          uri: "https://i.postimg.cc/G2vx7jCm/gdfgdf.png"
+          uri: images[0].uri
         }} />
       </VStack>
       <Text marginBottom="10" style={{ textAlignVertical: "center", textAlign: "center" }} fontSize="20px" color="#02020b" bold >
@@ -32,6 +62,9 @@ const ProfileScreen = () => {
         selectedDayTextColor="#C02411"
       />
     </Box>
+    ) : null}
+    </View>
+
   )
 }
 

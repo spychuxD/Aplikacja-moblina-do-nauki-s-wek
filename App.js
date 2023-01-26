@@ -18,9 +18,11 @@ import Dopasowania from './Dopasowania';
 import CreateNewSetScreen from './CreateNewSetScreen';
 import NotatkiPrzegladanie from './NotatkiPrzegladanie';
 import NotatkiDodawanie from './NotatkiDodawanie';
+import Test from './Test';
 const Tab = createBottomTabNavigator();
 
 const ProfileDrawer = () => {
+  
   return (
    <Drawer.Navigator >
   <Drawer.Screen name="Profil " component={ProfileScreen} options = {{
@@ -191,6 +193,16 @@ const App = () => {
           },
           headerTintColor: '#f1edee',
           headerTitle: 'Dodaj Notatki',
+          headerTitleStyle: {
+            fontSize: 24,
+          }
+          }}>
+          </Stacks.Screen>
+          <Stacks.Screen name="Test" component={Test} options = {{headerShown:true,headerStyle: {
+          backgroundColor: '#8aa29e',
+          },
+          headerTintColor: '#f1edee',
+          headerTitle: 'Test',
           headerTitleStyle: {
             fontSize: 24,
           }
