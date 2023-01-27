@@ -10,10 +10,6 @@ const LearnHome = () => {
   const size = route.params.size;
   
 
-  const startUcz=()=>{
-    navigation.navigate('Ucz');
-  }
-
   return <VStack space={4} backgroundColor="#686963" alignItems="center" justifyContent="center" w="100%" h="100%">
     <Text fontSize="26px" paddingBottom={10} style={{ textShadowColor: 'black', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 3, color:"#f1edee", fontSize:26, fontWeight:"bold"}}>
       {itemid} 
@@ -37,7 +33,7 @@ const LearnHome = () => {
       </HStack>
     </Button>
     <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-     backgroundColor="#8aa29e" >
+     backgroundColor="#8aa29e" onPress={()=>navigation.navigate('Test', {nazwa: itemid, size: size})}>
       <HStack>
         <Icon as={<MaterialIcons name="assignment" />} m="1" size={16} color="#f1edee" />
         <Text w={{base: '61%'}} m="3" fontSize="26px" color="#f1edee" bold>
@@ -45,7 +41,7 @@ const LearnHome = () => {
         </Text>
       </HStack>
     </Button>
-    <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
+    <Button isDisabled={size>=6 ? false : true} style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
     backgroundColor="#8aa29e" onPress={()=>navigation.navigate('Dopasowania', {nazwa: itemid, size: size})}>
       <HStack>
         <Icon as={<MaterialIcons name="extension" />} m="1" size={16} color="#f1edee" />

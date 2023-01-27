@@ -39,10 +39,10 @@ const LoginScreen = () => {
       .catch(error => alert(error.message))
     }
 
-  const handleSignUP = () => {
+  const handleSignUP = async() => {
     if(repeatPassword === password)
     {
-      auth
+      await auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
@@ -50,7 +50,17 @@ const LoginScreen = () => {
         db.collection('users').doc(user.uid).set({'email': user.email})
       })
       .catch(error => alert(error.message))
+
+        const noneRef = "https://firebasestorage.googleapis.com/v0/b/projektapki.appspot.com/o/none.png?alt=media&token=a71f19e8-fd47-4ea4-acb1-84b312e6a8f0";
+        const storageRef = st.ref();
+        const imageRef = storageRef.child(`/${auth.currentUser.email}/Avatar/${new Date().getTime()}.png`);
+        const response = await fetch(noneRef);
+        const blob = await response.blob();
+        const task = imageRef.put(blob);
+        await task;
     }
+
+
     else
     {
       Alert.alert(

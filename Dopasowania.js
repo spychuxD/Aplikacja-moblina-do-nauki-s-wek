@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Alert } from "react-native";
 import { Box, Button, Icon, Progress, Avatar, View, HStack, VStack, Text, ScrollView, } from "native-base";
 import { auth, db } from './firebase';
 import { useNavigation, useRoute } from '@react-navigation/core';
 
 
 const Dopasowania = () => {
+  const [definitions, setDefinitions] = useState([{}]);
+  const route = useRoute();
+  const name = route.params.nazwa;
+  const size = route.params.size;
+  const [randomNumbers, setRandomNumbers] = useState([]);
+  const [shuffleNumbers, setShuffleNumbers] = useState([]);
+  const navigation = useNavigation();
 
   const uid = auth.currentUser?.uid;
+
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     let newRandomNumbers = [];
@@ -64,30 +73,39 @@ const Dopasowania = () => {
       {
         console.log("YEAH");
         setCount(count+1);
+        setSave(false);
+        setSave2(false);
       }
       else
       {
         console.log("NOPE");
         setVisibleC({...visibleC, [indexButtonsConceptPressed]: false});
         setVisibleD({...visibleD, [indexButtonsDefinitionPressed]: false});
+        setSave(false);
+        setSave2(false);
       }
       setButtonsPressed([]);
     }
   }
 
+  const [save, setSave] = useState(false);
+  const [save2, setSave2] = useState(false);
+
   const add=(index,number,which)=>{
     console.log(index,number,which);
-    if(which == 0)
+    if(which == 0 && !save)
     {
       setVisibleC({...visibleC, [index]: true});
       setButtonsPressed([...buttonsPressed, number]);
       setIndexButtonsConceptPressed(index);
+      setSave(true);
     }
-    else
+    else if(which==1 && !save2)
     {
       setVisibleD({...visibleD, [index]: true});
       setButtonsPressed([...buttonsPressed, number]);
       setIndexButtonsDefinitionPressed(index);
+      setSave2(true);
     }
   }
 
@@ -98,34 +116,75 @@ const Dopasowania = () => {
     }
   }, [buttonsPressed]);
 
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [startTime, setStartTime] = useState(null);
+
+
+  const handleStartPress = () => {
+    setIsRunning(true);
+    setStartTime(new Date());
+  };
+
   useEffect(() => {
     if(count == 6)
     {
-     {/*navigation.navigate("podsumowanie");*/}
+      setIsRunning(false);
+      setElapsedTime(new Date() - startTime);
      console.log("WIN!");
     }
   }, [count]);
 
+  useEffect(() => {
+    if(elapsedTime != 0)
+    {
+      console.log(elapsedTime);
+      Alert.alert(
+        "GRATULACJE!",
+        `Twój czas: ${elapsedTime/1000}s`,
+        [{ text: "OK", onPress: ()=>{navigation.goBack()} }]
+      );
+    } 
+  }, [elapsedTime]);
+
+
+
   return (
-    <SafeAreaView>{definitions.length > 5 ? (
-      <HStack space={10} backgroundColor="#02020B" alignItems="center" justifyContent="center" w="100%" h="100%">
+    <SafeAreaView >{isRunning == true ? (
+      <HStack space={10} backgroundColor="#686963" alignItems="center" justifyContent="center" w="100%" h="100%">
         <VStack >
           {randomNumbers.map((number, index) => (
-            <Button key={index} margin="2" size="100" isDisabled={visibleC[index]} onPress={()=>add(index,number,0)}>
+            <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
+            backgroundColor="#8aa29e" key={index} margin="2" size="100" isDisabled={visibleC[index]} onPress={()=>add(index,number,0)}>
               {definitions[number].concept}
             </Button>
           ))}
         </VStack>
         <VStack >
           {shuffleNumbers.map((number, index) => (
-            <Button key={index} margin="2" size="100" isDisabled={visibleD[index]} onPress={()=>add(index,number,1)}>
+            <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
+            backgroundColor="#8aa29e" key={index} margin="2" size="100" isDisabled={visibleD[index]} onPress={()=>add(index,number,1)}>
               {definitions[number].definition}
             </Button>
           ))}
         </VStack>
       </HStack>
     ) : (
-      <Text>Loading...</Text>
+      <View backgroundColor="#686963" alignItems="center" justifyContent="center" w="100%" h="100%">
+        <Text fontSize="30px" color="#f1edee" bold>
+            Gotowy?
+        </Text>
+        <Text fontSize="24px" color="#f1edee">
+            Dopasuj wszystkie pojęcia
+        </Text>
+        <Text fontSize="24px" color="#f1edee">
+            do definicji
+        </Text>
+      <Button marginTop="5" width="80%" onPress={() => handleStartPress()}>
+        <Text fontSize="30px" color="#f1edee" bold>
+            START
+        </Text>
+      </Button>
+    </View>
     )}
     </SafeAreaView>
   )
