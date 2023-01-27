@@ -22,47 +22,170 @@ const Ucz = () => {
     const [learned, setLearned] = useState(true);
 
     const Check = () => {
-        if (yourAns === definitions[count].definition && onlyConcept) {
+        if (yourAns === randomDef[count].definition && onlyConcept) {
             setErrorShown(false);
             setPrompt('none');
             setPromptShown(false);
-            if (count < (definitions.length - 1)) {
+            if (count < (randomDef.length - 1)) {
+                
                 if (learned == true) {
-                    definitions[count].isLearn = learned;
+                    randomDef[count].isLearn = learned;
                 }
                 setLearned(true);
                 setCount(count + 1);
                 setAns('');
             }
-            else if (count === (definitions.length - 1)) {
+            else if (count === (randomDef.length - 1)) {
                 if (learned == true) {
-                    definitions[count].isLearn = learned;
+                    randomDef[count].isLearn = learned;
                 }
+                
+                
+                for(let p = 0; p < (basic.length-1); p++){
+                    if(randomDef.length == 5){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[2].concept){
+                            basic[p].isLearn = randomDef[2].isLearn;
+                        } 
+                        else if(basic[p].concept == randomDef[3].concept){
+                            basic[p].isLearn = randomDef[3].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[4].concept){
+                            basic[p].isLearn = randomDef[4].isLearn;
+                        }   
+                    }
+                    else if(randomDef.length == 4){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[2].concept){
+                            basic[p].isLearn = randomDef[2].isLearn;
+                        } 
+                        else if(basic[p].concept == randomDef[3].concept){
+                            basic[p].isLearn = randomDef[3].isLearn;
+                        }
+                    }
+                    else if(randomDef.length == 3){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[2].concept){
+                            basic[p].isLearn = randomDef[2].isLearn;
+                        }  
+                    }
+                    else if(randomDef.length == 2){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+ 
+                    }
+                    else if(randomDef.length == 1){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                    }
+                    
+                }
+                
+
                 db.collection('users').doc(uid).collection('zestawy').doc(uid + name).update({
-                    definitions: definitions,
+                    definitions: basic,
                 })
                 setLearned(true);
                 navigation.goBack();
             }
         }
-        else if (yourAns === definitions[count].concept && !onlyConcept) {
+        else if (yourAns === randomDef[count].concept && !onlyConcept) {
             setErrorShown(false);
             setPrompt('none');
             setPromptShown(false);
-            if (count < (definitions.length - 1)) {
+            if (count < (randomDef.length - 1)) {
                 if (learned == true) {
-                    definitions[count].isLearn = learned;
+                    randomDef[count].isLearn = learned;
                 }
                 setLearned(true);
                 setCount(count + 1);
                 setAns('');
             }
-            else if (count === (definitions.length - 1)) {
+            else if (count === (randomDef.length - 1)) {
                 if (learned == true) {
-                    definitions[count].isLearn = learned;
+                    randomDef[count].isLearn = learned;
+                }
+                for(let p = 0; p < (basic.length-1); p++){
+                    if(randomDef.length == 5){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[2].concept){
+                            basic[p].isLearn = randomDef[2].isLearn;
+                        } 
+                        else if(basic[p].concept == randomDef[3].concept){
+                            basic[p].isLearn = randomDef[3].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[4].concept){
+                            basic[p].isLearn = randomDef[4].isLearn;
+                        }   
+                    }
+                    else if(randomDef.length == 4){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[2].concept){
+                            basic[p].isLearn = randomDef[2].isLearn;
+                        } 
+                        else if(basic[p].concept == randomDef[3].concept){
+                            basic[p].isLearn = randomDef[3].isLearn;
+                        }
+                    }
+                    else if(randomDef.length == 3){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[2].concept){
+                            basic[p].isLearn = randomDef[2].isLearn;
+                        }  
+                    }
+                    else if(randomDef.length == 2){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                        else if(basic[p].concept == randomDef[1].concept){
+                            basic[p].isLearn = randomDef[1].isLearn;
+                        }
+ 
+                    }
+                    else if(randomDef.length == 1){
+                        if(basic[p].concept == randomDef[0].concept){
+                            basic[p].isLearn = randomDef[0].isLearn;
+                        }
+                    }
+                    
                 }
                 db.collection('users').doc(uid).collection('zestawy').doc(uid + name).update({
-                    definitions: definitions,
+                    definitions: basic,
                 })
                 setLearned(true);
                 navigation.goBack();
@@ -104,7 +227,7 @@ const Ucz = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, [,x]);
+    }, []);
     
     const [onlyConcept, setOnlyConcept] = useState(true);
     const [onlyDefinition, setOnlyDefinition] = useState(false);
@@ -159,27 +282,23 @@ const Ucz = () => {
         
     }, [definitions])
 
-    useEffect(()=>{
-        if(basic.length > 0)
-        {
-            basic.forEach(el=>{
-                el.isLearn = false;
-            })
-        }
-    },[basic])
-
+    
     const showPrompt = () => {
         setPromptShown(true);
         setLearned(false);
     };
 
     const reset = () => {
+        basic.forEach(el=>{
+            el.isLearn = false;
+        })
         db.collection('users').doc(uid).collection('zestawy').doc(uid + name).update({
             definitions: basic,
         })
-        setX(!x);
+        
         setEnd(false);
         console.log("zmieniono stan");
+        navigation.replace('Ucz', {nazwa: name, size: size});
     };
 
     const Powiadomienie = () => {
@@ -237,9 +356,9 @@ const Ucz = () => {
                 </HStack>
                 <View style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
                     borderRadius={20} backgroundColor="#f1edee" alignItems="center" justifyContent="center" w="90%" h="50%">
-                    {promptShown && <Text fontSize="25px" color="#8aa29e">{onlyConcept ? definitions[count].definition : definitions[count].concept}</Text>}
+                    {promptShown && <Text fontSize="25px" color="#8aa29e">{onlyConcept ? randomDef[count].definition : randomDef[count].concept}</Text>}
                     <Text style={{ textShadowColor: '#686963', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 3 }}
-                        marginBottom={2} fontSize="30px" color="#686963" bold>{onlyConcept ? definitions[count].concept : definitions[count].definition}</Text>
+                        marginBottom={2} fontSize="30px" color="#686963" bold>{onlyConcept ? randomDef[count].concept : randomDef[count].definition}</Text>
                     <Input onChangeText={text => setAns(text)} value={yourAns}
                         w={{
                             base: '75%',
