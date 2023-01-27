@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeBaseProvider, Stack } from 'native-base';
+import { NativeBaseProvider} from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,7 +17,7 @@ import Dopasowania from './Dopasowania';
 import CreateNewSetScreen from './CreateNewSetScreen';
 import NotatkiPrzegladanie from './NotatkiPrzegladanie';
 import NotatkiDodawanie from './NotatkiDodawanie';
-import Test from './Test';
+
 const Tab = createBottomTabNavigator();
 
 const ProfileDrawer = () => {
@@ -196,16 +196,7 @@ const App = () => {
           }
           }}>
           </Stacks.Screen>
-          <Stacks.Screen name="Test" component={Test} options = {{headerShown:true,headerStyle: {
-          backgroundColor: '#8aa29e',
-          },
-          headerTintColor: '#f1edee',
-          headerTitle: 'Test',
-          headerTitleStyle: {
-            fontSize: 24,
-          }
-          }}>
-          </Stacks.Screen>
+          
         </Stacks.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

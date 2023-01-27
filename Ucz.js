@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import { Animated, PanResponder, StyleSheet, Alert } from "react-native";
-import { Box, Menu, Switch, FlatList, Button, Icon, Progress, Avatar, View, HStack, VStack, Text, Input, Spacer, Center, NativeBaseProvider, Divider } from "native-base";
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import {  Alert } from "react-native";
+import { Box, Menu, Switch, Button, Icon, View, HStack, VStack, Text, Input } from "native-base";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute, } from '@react-navigation/core';
 import { auth, db } from './firebase';
 
@@ -200,7 +200,6 @@ const Ucz = () => {
     const [basic, setBasic] = useState([]);
     const [x,setX] = useState(false);
     useEffect(() => {
-        console.log("CHUUUUUUUUj")
         const uid = auth.currentUser?.uid;
         db.collection('users').doc(uid).collection('zestawy').doc(uid + name).get()
             .then(doc => {
@@ -254,9 +253,8 @@ const Ucz = () => {
     const [end, setEnd] = useState(false);
 
     useEffect(() => {
-        console.log(definitions);
         if (definitions.length > 0) {
-            console.log(definitions.length);
+
             let i;
             if (definitions.length >= 5) {
                 i = 5;
@@ -297,7 +295,6 @@ const Ucz = () => {
         })
         
         setEnd(false);
-        console.log("zmieniono stan");
         navigation.replace('Ucz', {nazwa: name, size: size});
     };
 

@@ -36,8 +36,8 @@ const CreateNewSetScreen = () => {
       }
       else {
         db.collection('users').doc(uid).collection('zestawy').doc(uid + nameSet).set({});
-        console.log("utworzono zestaw: ", uid + nameSet);
-        await db.collection('users').doc(uid).collection('zestawy').doc(uid+nameSet).set({
+        
+        await db.collection('users').doc(uid).collection('zestawy').doc(uid + nameSet).set({
           name: nameSet,
           definitions: arrayList,
           count: tmp,
@@ -58,13 +58,13 @@ const CreateNewSetScreen = () => {
   }
 
   const updateValueC = (text, i) => {
-    setArrayList([...arrayList].map((el, j) => i === j ? {...el, concept: text} : el));
+    setArrayList([...arrayList].map((el, j) => i === j ? { ...el, concept: text } : el));
   }
 
   const updateValueD = (text, i) => {
-    setArrayList([...arrayList].map((el, j) => i === j ? {...el, definition: text} : el));
+    setArrayList([...arrayList].map((el, j) => i === j ? { ...el, definition: text } : el));
 
-  
+
   }
   return (
     <Stack space={4} backgroundColor="#686963" alignItems="center" justifyContent="center" w="100%" h="100%">
@@ -118,9 +118,9 @@ const CreateNewSetScreen = () => {
           </Button>
         </VStack>
       </ScrollView>
-      
+
       <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 20 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-      backgroundColor="#8aa29e" onPress={() => addSet()}>
+        backgroundColor="#8aa29e" onPress={() => addSet()}>
         <HStack>
           <Icon as={<Ionicons name="create" />} m="1" size={50} color="#f1edee" />
           <Text w={{ base: '70%' }} m="3" fontSize="26px" color="#f1edee" bold>

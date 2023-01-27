@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Animated, PanResponder, StyleSheet, SafeAreaView } from "react-native";
-import { Menu,Box,Switch, HamburgerIcon, FlatList, Button, Icon, Progress, Avatar, View, Pressable, HStack, VStack, Text, Spacer, Center, NativeBaseProvider, Divider } from "native-base";
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, SafeAreaView } from "react-native";
+import { Menu, Box, Switch, Button, Icon, Progress, View, HStack, VStack, Text } from "native-base";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute, } from '@react-navigation/core';
 import { auth, db } from './firebase';
 import { Accelerometer } from 'expo-sensors';
-
 import GestureFlipView from 'react-native-gesture-flip-card';
 
 
@@ -51,15 +50,15 @@ const Fiszki = () => {
     else if (count === (tab.length)) {
       db.collection('users').doc(uid).collection('zestawy').doc(uid + name).update({
         definitions: tab,
-      })  
+      })
       navigation.goBack();
     }
   };
 
-  const exit = ()=>{
+  const exit = () => {
     db.collection('users').doc(uid).collection('zestawy').doc(uid + name).update({
       definitions: tab,
-    })  
+    })
     navigation.goBack();
   }
 
@@ -137,14 +136,13 @@ const Fiszki = () => {
     }
   }, [isPhoneTiltRight, isPhoneTilt]);
 
-  const reset = ()=>{
-    tab.forEach(el=>{
+  const reset = () => {
+    tab.forEach(el => {
       el.isLearn = false;
     })
     db.collection('users').doc(uid).collection('zestawy').doc(uid + name).update({
       definitions: tab,
-    }) 
-    console.log("zmieniono stan");
+    })
   };
 
   const renderFront = () => {
@@ -154,30 +152,30 @@ const Fiszki = () => {
   };
 
 
-  
+
   const renderBack = () => {
     return <View backgroundColor="#f1edee" width={280} height={450} marginTop={5} marginBottom={10} borderRadius={20} alignItems="center" justifyContent="center">
       <Text fontSize="30px" color="#02020B">{tab[randomNumbers[count - 1]].definition}</Text>
     </View>
   };
-    
+
 
   return <VStack space={4} backgroundColor="#686963" alignItems="center" justifyContent="space-between" w="100%" h="100%">
     <Box w="90%" maxW={400}>
       <Text alignSelf='center' m="5" color="#f1edee">{count}/{tab.length}</Text>
       <Progress style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }} value={(count) / tab.length * 100} mx="4" />
     </Box>
-      
-        <Menu closeOnSelect={false} w="200" placement="left bottom"  
-        trigger={triggerProps => {
+
+    <Menu closeOnSelect={false} w="200" placement="left bottom"
+      trigger={triggerProps => {
         return <Button marginRight="3" backgroundColor="#8aa29e" marginLeft="auto"{...triggerProps}>
-                <Icon as={<MaterialCommunityIcons name={'menu'} />} size={5} color="#f1edee" />
-              </Button>
+          <Icon as={<MaterialCommunityIcons name={'menu'} />} size={5} color="#f1edee" />
+        </Button>
       }}>
-            <Menu.ItemOption padding="0" value="Akcel">Akcelerometr<Switch size="lg" isChecked={changes} offTrackColor="blue.100" onTrackColor="blue.400" onToggle={()=>toggleAccelerometer()}/></Menu.ItemOption>
-            <Menu.ItemOption paddingBottom="5" value="Reset" onPress={()=>reset()}>Reset</Menu.ItemOption>
-        </Menu>
-    
+      <Menu.ItemOption padding="0" value="Akcel">Akcelerometr<Switch size="lg" isChecked={changes} offTrackColor="blue.100" onTrackColor="blue.400" onToggle={() => toggleAccelerometer()} /></Menu.ItemOption>
+      <Menu.ItemOption paddingBottom="5" value="Reset" onPress={() => reset()}>Reset</Menu.ItemOption>
+    </Menu>
+
     <SafeAreaView flex={1} alignItems="center" style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
       <GestureFlipView width={280} height={450}>
         {renderFront()}
@@ -186,20 +184,20 @@ const Fiszki = () => {
     </SafeAreaView>
     <HStack>
       <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-      borderRadius="15" marginTop="5" marginX="5" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#db5461" onPress={() => doNotKnow()}>
+        borderRadius="15" marginTop="5" marginX="5" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#db5461" onPress={() => doNotKnow()}>
         Nie wiem
       </Button>
-      
+
       <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-      borderRadius="15" marginTop="5" marginX="5" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#56A598" onPress={() => know()}>
+        borderRadius="15" marginTop="5" marginX="5" w={{ base: '35%' }} h={60} alignItems="center" backgroundColor="#56A598" onPress={() => know()}>
         Wiem
       </Button>
-      
+
     </HStack>
     <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-      borderRadius="15"  alignItems="center" backgroundColor="#8aa29e" onPress={() => exit()}>
-        Zapisz i wyjdź
-      </Button>
+      borderRadius="15" alignItems="center" backgroundColor="#8aa29e" onPress={() => exit()}>
+      Zapisz i wyjdź
+    </Button>
   </VStack>
 };
 const styles = StyleSheet.create({

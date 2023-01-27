@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Alert } from "react-native";
-import { Box, Button, Icon, Progress, Avatar, View, HStack, VStack, Text, ScrollView, } from "native-base";
+import { Button, View, HStack, VStack, Text } from "native-base";
 import { auth, db } from './firebase';
 import { useNavigation, useRoute } from '@react-navigation/core';
 
@@ -67,21 +67,16 @@ const Dopasowania = () => {
   const [indexButtonsDefinitionPressed, setIndexButtonsDefinitionPressed] = useState();
   const [count, setCount] = useState(0);
 
-  const check=(buttonsPressed,indexButtonsConceptPressed,indexButtonsDefinitionPressed)=>{
-    if(buttonsPressed.length == 2)
-    {
-      if(buttonsPressed[0] === buttonsPressed[1])
-      {
-        console.log("YEAH");
-        setCount(count+1);
+  const check = (buttonsPressed, indexButtonsConceptPressed, indexButtonsDefinitionPressed) => {
+    if (buttonsPressed.length == 2) {
+      if (buttonsPressed[0] === buttonsPressed[1]) {
+        setCount(count + 1);
         setSave(false);
         setSave2(false);
       }
-      else
-      {
-        console.log("NOPE");
-        setVisibleC({...visibleC, [indexButtonsConceptPressed]: false});
-        setVisibleD({...visibleD, [indexButtonsDefinitionPressed]: false});
+      else {
+        setVisibleC({ ...visibleC, [indexButtonsConceptPressed]: false });
+        setVisibleD({ ...visibleD, [indexButtonsDefinitionPressed]: false });
         setSave(false);
         setSave2(false);
       }
@@ -92,27 +87,23 @@ const Dopasowania = () => {
   const [save, setSave] = useState(false);
   const [save2, setSave2] = useState(false);
 
-  const add=(index,number,which)=>{
-    console.log(index,number,which);
-    if(which == 0 && !save)
-    {
-      setVisibleC({...visibleC, [index]: true});
+  const add = (index, number, which) => {
+    if (which == 0 && !save) {
+      setVisibleC({ ...visibleC, [index]: true });
       setButtonsPressed([...buttonsPressed, number]);
       setIndexButtonsConceptPressed(index);
       setSave(true);
     }
-    else if(which==1 && !save2)
-    {
-      setVisibleD({...visibleD, [index]: true});
+    else if (which == 1 && !save2) {
+      setVisibleD({ ...visibleD, [index]: true });
       setButtonsPressed([...buttonsPressed, number]);
       setIndexButtonsDefinitionPressed(index);
       setSave2(true);
     }
   }
   useEffect(() => {
-    if(buttonsPressed.length === 2)
-    {
-      check(buttonsPressed,indexButtonsConceptPressed,indexButtonsDefinitionPressed);
+    if (buttonsPressed.length === 2) {
+      check(buttonsPressed, indexButtonsConceptPressed, indexButtonsDefinitionPressed);
     }
   }, [buttonsPressed]);
 
@@ -126,24 +117,20 @@ const Dopasowania = () => {
   };
 
   useEffect(() => {
-    if(count == 6)
-    {
+    if (count == 6) {
       setIsRunning(false);
       setElapsedTime(new Date() - startTime);
-     console.log("WIN!");
     }
   }, [count]);
 
   useEffect(() => {
-    if(elapsedTime != 0)
-    {
-      console.log(elapsedTime);
+    if (elapsedTime != 0) {
       Alert.alert(
         "GRATULACJE!",
-        `Twój czas: ${elapsedTime/1000}s`,
-        [{ text: "OK", onPress: ()=>{navigation.goBack()} }]
+        `Twój czas: ${elapsedTime / 1000}s`,
+        [{ text: "OK", onPress: () => { navigation.goBack() } }]
       );
-    } 
+    }
   }, [elapsedTime]);
 
 
@@ -154,7 +141,7 @@ const Dopasowania = () => {
         <VStack >
           {randomNumbers.map((number, index) => (
             <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-            backgroundColor="#8aa29e" key={index} margin="2" size="100" isDisabled={visibleC[index]} onPress={()=>add(index,number,0)}>
+              backgroundColor="#8aa29e" key={index} margin="2" size="100" isDisabled={visibleC[index]} onPress={() => add(index, number, 0)}>
               {definitions[number].concept}
             </Button>
           ))}
@@ -162,7 +149,7 @@ const Dopasowania = () => {
         <VStack >
           {shuffleNumbers.map((number, index) => (
             <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-            backgroundColor="#8aa29e" key={index} margin="2" size="100" isDisabled={visibleD[index]} onPress={()=>add(index,number,1)}>
+              backgroundColor="#8aa29e" key={index} margin="2" size="100" isDisabled={visibleD[index]} onPress={() => add(index, number, 1)}>
               {definitions[number].definition}
             </Button>
           ))}
@@ -171,20 +158,20 @@ const Dopasowania = () => {
     ) : (
       <View backgroundColor="#686963" alignItems="center" justifyContent="center" w="100%" h="100%">
         <Text fontSize="30px" color="#f1edee" bold>
-            Gotowy?
+          Gotowy?
         </Text>
         <Text fontSize="24px" color="#f1edee">
-            Dopasuj wszystkie pojęcia
+          Dopasuj wszystkie pojęcia
         </Text>
         <Text fontSize="24px" color="#f1edee">
-            do definicji
+          do definicji
         </Text>
-      <Button marginTop="5" width="80%" onPress={() => handleStartPress()}>
-        <Text fontSize="30px" color="#f1edee" bold>
+        <Button marginTop="5" width="80%" onPress={() => handleStartPress()}>
+          <Text fontSize="30px" color="#f1edee" bold>
             START
-        </Text>
-      </Button>
-    </View>
+          </Text>
+        </Button>
+      </View>
     )}
     </SafeAreaView>
   )

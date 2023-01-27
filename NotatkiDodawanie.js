@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { Camera } from 'expo-camera';
-import { View, Image, TouchableOpacity, Text,ScrollView,StyleSheet, StatusBar,Alert } from 'react-native';
-import { st,auth,db } from './firebase';
+import { View, Image, TouchableOpacity, Text, ScrollView, StyleSheet, Alert } from 'react-native';
+import { st, auth } from './firebase';
 import { useNavigation, useRoute, } from '@react-navigation/core';;
 import { useEffect } from 'react';
 import * as Progress from 'react-native-progress';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function NotatkiDodawanie () {
+export default function NotatkiDodawanie() {
   const [permissionsGranted, setPermissionsGranted] = useState(false);
   const [image, setImage] = useState(null);
   const [isEnabled, setIsEnabled] = useState(true);
@@ -19,7 +19,7 @@ export default function NotatkiDodawanie () {
 
   const camera = useRef(null);
   const scrollView = useRef(null);
-  
+
   async function requestPermissions() {
     const { status } = await Camera.requestCameraPermissionsAsync();
     if (status === 'granted') {
@@ -30,7 +30,7 @@ export default function NotatkiDodawanie () {
         'Odrzucono permisje do kamery!',
         [
           {
-            text:"OK",
+            text: "OK",
           }
         ]
       );
@@ -44,7 +44,7 @@ export default function NotatkiDodawanie () {
       scrollView.current.scrollToEnd({ animated: true });
     }
   }
-  async function uploadPicture () {
+  async function uploadPicture() {
     setUploading(true);
     setTransferred(0);
     const storageRef = st.ref();
@@ -52,12 +52,12 @@ export default function NotatkiDodawanie () {
     const response = await fetch(image);
     const blob = await response.blob();
     const task = imageRef.put(blob);
-  
+
     task.on('state_changed', (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes * 1000000 ) * 10;
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes * 1000000) * 10;
       setTransferred(progress);
     });
-  
+
     try {
       await task;
       setUploading(false);
@@ -66,8 +66,8 @@ export default function NotatkiDodawanie () {
         'Sprawdź swoje zdjęcie w notatkach!',
         [
           {
-            text:"OK",
-            onPress: () => {navigation.replace('NotatkiPrzegladanie', {nazwa: setName})} ,
+            text: "OK",
+            onPress: () => { navigation.replace('NotatkiPrzegladanie', { nazwa: setName }) },
           }
         ]
       );
@@ -76,7 +76,7 @@ export default function NotatkiDodawanie () {
       console.error(e);
     }
   }
-  
+
   async function loadPicture() {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status === 'granted') {
@@ -85,7 +85,7 @@ export default function NotatkiDodawanie () {
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsMultipleSelection: false,
         });
-    
+
         if (!canceled) {
           setImage(assets[0].uri);
           setIsEnabled(false);
@@ -94,38 +94,38 @@ export default function NotatkiDodawanie () {
       } catch (error) {
         console.log(error);
       }
-      }
-      else {
-        console.log('Permission denied');
-    } 
     }
-useEffect(() => {
-  requestPermissions();
-}, []);
+    else {
+      console.log('Permission denied');
+    }
+  }
+  useEffect(() => {
+    requestPermissions();
+  }, []);
 
   return (
     <ScrollView ref={scrollView}>
-    {!uploading ? (
-    <View>
-    {permissionsGranted ? (
-      <Camera style={{ flex: 1, aspectRatio: 0.7}} ref={camera}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-          }}>
-
-        </View>
-      </Camera>
-      ) : (
-        <Text>Permisje do kamery nie zostały przyznane</Text>
-      )}
-      </View>
-    ):null}
-      <View alignItems= 'center' >
       {!uploading ? (
-      <TouchableOpacity
+        <View>
+          {permissionsGranted ? (
+            <Camera style={{ flex: 1, aspectRatio: 0.7 }} ref={camera}>
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: 'transparent',
+                  flexDirection: 'row',
+                }}>
+
+              </View>
+            </Camera>
+          ) : (
+            <Text>Permisje do kamery nie zostały przyznane</Text>
+          )}
+        </View>
+      ) : null}
+      <View alignItems='center' >
+        {!uploading ? (
+          <TouchableOpacity
             style={[
               styles.button,
             ]}
@@ -134,8 +134,8 @@ useEffect(() => {
               Zrób zdjęcie
             </Text>
           </TouchableOpacity>
-      ): null }
-      {!uploading ? (
+        ) : null}
+        {!uploading ? (
           <TouchableOpacity
             style={[
               styles.button,
@@ -145,43 +145,43 @@ useEffect(() => {
               Załaduj zdjęcie z galerii
             </Text>
           </TouchableOpacity>
-      ) : null}
-      {image !=null ? (<Image source={{ uri: image }} style={{ width: 200, height: 250 }}/>
-      ) : null}
-      {uploading ? (
-        <View style={styles.progressBarContainer}>
-          <Progress.Bar progress={transferred} width={300} />
-        </View>
-      ) : ( 
+        ) : null}
+        {image != null ? (<Image source={{ uri: image }} style={{ width: 200, height: 250 }} />
+        ) : null}
+        {uploading ? (
+          <View style={styles.progressBarContainer}>
+            <Progress.Bar progress={transferred} width={300} />
+          </View>
+        ) : (
 
-      <TouchableOpacity disabled={isEnabled}
+          <TouchableOpacity disabled={isEnabled}
             style={[
               styles.button,
             ]}
             onPress={uploadPicture}>
             <Text style={{ fontSize: 18, marginBottom: 10, color: '#F1EDEE' }}>
-              Załaduj 
+              Załaduj
             </Text>
           </TouchableOpacity>)}
-    </View>
+      </View>
     </ScrollView>
   );
 }
 const styles = StyleSheet.create({
   button: {
-  width: 200,
-  height: 50,
-  backgroundColor: '#8AA29E',
-  margin: 5,
-  alignItems: 'center',
-  justifyContent: 'center',
-  shadowColor: 'black', 
-  shadowOffset: { width: 0, height: 2 }, 
-  shadowOpacity: 0.25, shadowRadius: 3.84, 
-  elevation: 5,
+    width: 200,
+    height: 50,
+    backgroundColor: '#8AA29E',
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25, shadowRadius: 3.84,
+    elevation: 5,
   },
-  progressBarContainer: { 
+  progressBarContainer: {
     marginTop: 20
   },
-  });
+});
 

@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useLayoutEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {View } from 'react-native';
-import { Box, FlatList, Button, Avatar, HStack, VStack, Text, Spacer, Center, NativeBaseProvider } from "native-base";
-import { MaterialIcons } from '@expo/vector-icons';
+import { Box, Avatar, VStack, Text } from "native-base";
 import CalendarPicker from 'react-native-calendar-picker';
 import { useNavigation} from '@react-navigation/core';
 import { st,auth, } from './firebase';
