@@ -61,6 +61,7 @@ const Dopasowania = () => {
     4: false,
     5: false,
   });
+
   const [buttonsPressed, setButtonsPressed] = useState([]);
   const [indexButtonsConceptPressed, setIndexButtonsConceptPressed] = useState();
   const [indexButtonsDefinitionPressed, setIndexButtonsDefinitionPressed] = useState();
@@ -108,7 +109,6 @@ const Dopasowania = () => {
       setSave2(true);
     }
   }
-
   useEffect(() => {
     if(buttonsPressed.length === 2)
     {
