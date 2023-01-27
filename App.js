@@ -14,7 +14,6 @@ import SettingsScreen from './SettingsScreen';
 import ChangeSettingsScreen from './ChangeSettingsScreen';
 import Ucz from './Ucz';
 import Dopasowania from './Dopasowania';
-
 import CreateNewSetScreen from './CreateNewSetScreen';
 import NotatkiPrzegladanie from './NotatkiPrzegladanie';
 import NotatkiDodawanie from './NotatkiDodawanie';
@@ -22,7 +21,6 @@ import Test from './Test';
 const Tab = createBottomTabNavigator();
 
 const ProfileDrawer = () => {
-  
   return (
    <Drawer.Navigator >
   <Drawer.Screen name="Profil " component={ProfileScreen} options = {{

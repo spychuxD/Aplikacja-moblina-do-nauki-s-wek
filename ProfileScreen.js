@@ -18,7 +18,6 @@ const ProfileScreen = () => {
       setCheck(false);
       const imageRef = st.ref(`/${auth.currentUser.email}/Avatar/`);
       const imageList = await imageRef.listAll();
-  
       const imagesData = await Promise.all(
         imageList.items
           .filter(item => item.name.endsWith('.jpg') || item.name.endsWith('.jpeg') || item.name.endsWith('.png'))

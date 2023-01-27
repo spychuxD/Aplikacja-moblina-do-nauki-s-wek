@@ -33,7 +33,7 @@ const LearnHome = () => {
       </HStack>
     </Button>
     <Button style={{ shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}
-     backgroundColor="#8aa29e" >
+     backgroundColor="#8aa29e" onPress={()=>navigation.navigate('Test', {nazwa: itemid, size: size})}>
       <HStack>
         <Icon as={<MaterialIcons name="assignment" />} m="1" size={16} color="#f1edee" />
         <Text w={{base: '61%'}} m="3" fontSize="26px" color="#f1edee" bold>
